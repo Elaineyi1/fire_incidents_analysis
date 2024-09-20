@@ -2,7 +2,7 @@
 # Purpose: Clean the raw hate crimes data from Open Data Toronto
 # Author: Boxuan Yi
 # Email: boxuan.yi@mail.utoronto.ca
-# Date: 15 September 2024
+# Date: 19 September 2024
 # Prerequisites: None
 
 library(dplyr)
@@ -11,12 +11,14 @@ library(here)
 library(janitor)
 library(knitr)
 
+# Read the raw dataset
 data_raw <- read_csv(file = here("../inputs/data/data_raw.csv"))
 
 data_cleaned <- clean_names(data_raw)
 data_cleaned <- na.omit(data_cleaned)
 data_cleaned$occurrence_month <- as.numeric(substr(data_cleaned$occurrence_date, 6, 7))
 
+# Modify the religion bias column
 data_cleaned <- data_cleaned |>
   filter(!(religion_bias %in% c("Christian Orthodox, Jewish", "Jewish, Muslim"))) |>
   mutate(religion_bias = case_when(
@@ -24,6 +26,7 @@ data_cleaned <- data_cleaned |>
     TRUE ~ religion_bias
   ))
 
+# Modify the race bias column
 data_cleaned <- data_cleaned |>
   filter(!(race_bias %in% c("Black, East/Southeast Asian", "Black, Indigenous", "Black, South Asian", 
                             "Black, White", "East/Southeast Asian, South Asian, Black", 
@@ -40,6 +43,7 @@ data_cleaned <- data_cleaned |>
     TRUE ~ race_bias
   ))
 
+# Modify the location type column
 data_cleaned <- data_cleaned |>
   mutate(location_type = case_when(
     location_type %in% c("Government Building", "Government Building (Courthouse, Museums, Parliament Building, etc.)", "Non-Commercial/Non for Profit") ~ "Government/Public Buildings",
@@ -52,6 +56,7 @@ data_cleaned <- data_cleaned |>
     TRUE ~ location_type  # If any unhandled cases, keep original
   ))
 
+# Create a simplified column that describes the primary offence
 data_cleaned <- data_cleaned |>
   mutate(primary_offence_simplified = case_when(
     primary_offence %in% c("Wilful Promotion of Hatred", "Public Incitement of Hatred", "Advocating Genocide") ~ "Hate Crimes",
@@ -63,7 +68,7 @@ data_cleaned <- data_cleaned |>
     TRUE ~ "Other Offences"  # for any other offences not categorized
   ))
 
-
+# Mutate a division area column
 data_cleaned <- data_cleaned |>
   mutate(
     division_area =
