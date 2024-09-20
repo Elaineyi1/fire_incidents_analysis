@@ -3,8 +3,9 @@ title: "toronto_fire_incidents_analysis"
 author: "Boxuan Yi"
 format: pdf
 ---
-
+Paper 1
 ```{r}
+#| include: false
 library(dplyr)
 library(tidyverse)
 library(here)
@@ -14,17 +15,23 @@ library(ggplot2)
 ```
 
 ```{r}
+#| include: false
 data_cleaned <- read_csv(file = here("../inputs/data/data_cleaned.csv"))
 ```
 
 ```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: fig-month
+#| fig-cap: Monthly Occurrences of Hate Crimes in Toronto From 2018 to 2023
 data_cleaned |>
   group_by(occurrence_month) |>
   summarise(n = n()) |>
   ggplot(mapping = aes(x = occurrence_month, y = n)) +
   geom_line(color = "tomato4") +
   geom_point(color = "black") +
-  labs(x = "Occurrence Month", y = "Number of Observations", title = "Monthly Occurrences of Crimes From 2018 to 2023") +
+  labs(x = "Occurrence Month", y = "Number of Observations") +
   scale_x_continuous(breaks = 1:12) +  # Set x-axis breaks to show only 1 to 12
   theme_minimal()
 
@@ -32,6 +39,11 @@ data_cleaned |>
 
 
 ```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: fig-race
+#| fig-cap: Trends in Hate Crimes by Race Bias From 2018 to 2023
 data_cleaned |>
   ggplot(mapping = aes(x = occurrence_year, fill = race_bias)) +
   geom_bar() +
@@ -42,21 +54,41 @@ data_cleaned |>
 
 
 ```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: fig-religion
+#| fig-cap: Trends in Hate Crimes by Religion Bias From 2018 to 2023
 data_cleaned |>
   ggplot(mapping = aes(x = occurrence_year, fill = religion_bias)) +
   geom_bar() +
-  labs(x = "Year Offence Occured", y = "Number of Observations", fill = "Religion Bias") +
+  labs(x = "Year Offence Occurred", y = "Number of Observations", fill = "Religion Bias") +
   theme(legend.position = "right") +
   scale_x_continuous(breaks = seq(2018, 2023, by = 1))
 ```
 
 ```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: fig-location_year
+#| fig-cap: Trends in Hate Crimes by Location Type of the Offence From 2018 to 2023
 data_cleaned |>
   ggplot(mapping = aes(x = occurrence_year, fill = location_type)) +
   geom_bar() +
   labs(x = "Year Offence Occured", y = "Number of Observations", fill = "Location Type of the Offence") +
   theme(legend.position = "right") +
   scale_x_continuous(breaks = seq(2018, 2023, by = 1))
+```
+
+```{r}
+#| label: fig-location
+#| fig-cap: Number of Hate Crimes by Primary Offence Across Different Areas
+#| echo: false
+#| warning: false
+#| message: false
+#| layout-ncol: 1
+#| fig-subcap: ["Distribution of Hate Crimes by Division Area and Location Type", "Distribution of Primary Offence by Location Type"]
 
 data_cleaned |>
   ggplot(mapping = aes(x = division_area, fill = location_type)) +
@@ -65,10 +97,6 @@ data_cleaned |>
   theme(legend.position = "right") +
   theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-```
-
-
-```{r}
 data_cleaned |>
   ggplot(mapping = aes(x = location_type, fill = primary_offence_simplified)) +
   geom_bar() +
@@ -77,7 +105,14 @@ data_cleaned |>
   theme(axis.text.x = element_text(angle = 30, hjust = 1))
 ```
 
+
+
 ```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: tbl-disability
+#| tbl-cap: The Number of Hate Crimes Based on Suspect’s Perception of Victim’s Mental or Physical Disability
 data_cleaned |>
   group_by(mental_or_physical_disability) |>
   summarise(count = n()) |>
@@ -86,6 +121,11 @@ data_cleaned |>
 ```
 
 ```{r}
+#| message: false
+#| echo: false
+#| warning: false
+#| label: tbl-clean_mci_data
+#| tbl-cap: The Number of Hate Crimes Based on Suspect’s Perception of Victim’s Age
 data_cleaned |>
   group_by(age_bias) |>
   summarise(count = n()) |>
