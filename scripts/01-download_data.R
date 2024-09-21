@@ -6,7 +6,7 @@
 # Prerequisites: None
 
 # install.packages('opendatatoronto')
-# install.packages('dylyr')
+# install.packages('dplyr')
 # install.packages('tidyverse')
 # install.packages('here')
 # install.packages('janitor')

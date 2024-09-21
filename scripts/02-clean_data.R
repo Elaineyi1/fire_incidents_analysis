@@ -59,7 +59,7 @@ data_cleaned <- data_cleaned |>
 # Create a simplified column that describes the primary offence
 data_cleaned <- data_cleaned |>
   mutate(primary_offence_simplified = case_when(
-    primary_offence %in% c("Wilful Promotion of Hatred", "Public Incitement of Hatred", "Advocating Genocide") ~ "Hate Crimes",
+    primary_offence %in% c("Wilful Promotion of Hatred", "Public Incitement of Hatred", "Advocating Genocide") ~ "Hatred",
     primary_offence %in% c("Assault", "Assault With a Weapon", "Assault Causing Bodily Harm", "Assault Peace Officer", "Aggravated Assault") ~ "Assault",
     primary_offence %in% c("Mischief Under $5000", "Mischief Interfere With Property", "Mischief To Religious Property, Educational Institutions, Etc.", "Mischief Over $5000", "Mischief To Data", "Arson", "Theft", "Robbery") ~ "Property Crimes",
     primary_offence %in% c("Uttering Threats - Bodily Harm", "Uttering Threats - Property", "Criminal Harassment", "Harassing Communications", "Disturbing Religious Worship Or Certain Meetings", "Causing a Disturbance") ~ "Threats and Harassment",
