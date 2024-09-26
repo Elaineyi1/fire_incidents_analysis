@@ -1,6 +1,7 @@
 ChatGpt was used for correcting grammar and modifying codes. The chats can be found here.
 
 https://chatgpt.com/share/66ef6c51-e790-8001-9301-c285f2a7c6db
+https://chatgpt.com/share/66f5c57b-7974-8001-80c3-7f857b16f571
 
 Chats are copied and pasted here.
 
@@ -625,3 +626,115 @@ These options should make the graph smaller in the rendered PDF.
 
 
 ChatGPT can make mistakes. Check important info.
+
+ChatGPT
+
+Share
+
+
+You said:
+A hate crime is a criminal offence committed against a person motivated by bias and prejudice [@hatecrime]. The hate crime data used in this analysis from Open Data Toronto is provided by Toronto Police Service, updated annually. It covers all verified hate crime occurrences from 2018 to 2023. The data was collected by victim report, aiming to enhance community awareness and public safety [@police].  The dataset categorizes crimes by various bias types, such as age, disability, race, ethnicity, language, religion, sexual orientation, and gender.  Please correct my mistake and make it clear
+ChatGPT said:
+
+ChatGPT
+Here’s a revised version of your text with improved clarity and flow:
+
+A hate crime is a criminal offense committed against a person, motivated by bias and prejudice [@hatecrime]. The hate crime data used in this analysis is sourced from Open Data Toronto, provided by the Toronto Police Service and updated annually. It encompasses all verified hate crime occurrences from 2018 to 2023. This data was collected through victim reports to enhance community awareness and public safety [@police]. The dataset categorizes crimes based on various bias types, including age, disability, race, ethnicity, language, religion, sexual orientation, and gender.
+
+Let me know if you need any further adjustments!
+
+
+
+
+
+
+You said:
+This dataset is the only one about hate crimes on Open Data Toronto, so no other similar datasets could have been used. 
+ChatGPT said:
+
+ChatGPT
+Here’s a refined version of your statement for clarity:
+
+This dataset is the only one related to hate crimes available on Open Data Toronto, meaning no other similar datasets could have been utilized.
+
+Feel free to ask if you need more changes!
+
+
+
+
+
+
+You said:
+The number of unclear/mixed values in biases is small, so they have been excluded. The limitation of this will be discuss in the discussion section.
+ChatGPT said:
+
+ChatGPT
+Here’s a clearer version of your statement:
+
+The number of unclear or mixed values in the bias categories is small, so they have been excluded from the analysis. The limitations of this exclusion will be discussed in the discussion section.
+
+Let me know if you need any further modifications!
+
+
+
+
+
+
+You said:
+As illustrated in @sec-data, unclear values, such as ‘Black, South Asian’ in religion bias column, have been removed. This may cause some biases underreported, as all the unclear values indicate a bias instead of a 'None'.
+ChatGPT said:
+
+ChatGPT
+Here’s a revised version of your statement for clarity:
+
+As illustrated in @sec-data, unclear values—such as "Black, South Asian" in the religion bias column—have been removed. This exclusion may lead to some biases being underreported, as all unclear values indicate a bias rather than a 'None' response.
+
+Let me know if you need further adjustments!
+
+
+
+
+
+
+You said:
+there is a small number of biases are unclear in the dataset
+ChatGPT said:
+
+ChatGPT
+Here’s a clearer version of your statement:
+
+There is a small number of unclear biases in the dataset.
+
+Let me know if you’d like any further changes!
+
+
+
+
+
+
+You said:
+The Toronto-East York region, with its large population, naturally has a higher number of hate crimes. The presence of numerous commercial buildings and public transportation options contributes to the trend that  public and commercial locations in Toronto-East York have large number of crimes. 
+ChatGPT said:
+
+ChatGPT
+Here’s a refined version of your statement:
+
+The Toronto-East York region, with its large population, naturally has a higher number of hate crimes. The presence of numerous commercial buildings and public transportation options contributes to the trend, resulting in a significant number of crimes occurring in public and commercial locations within Toronto-East York.
+
+Feel free to ask for any more adjustments!
+
+
+
+
+
+
+You said:
+The Toronto-East York region, with its large population, naturally has a higher number of hate crimes. The presence of numerous commercial buildings and public transportation options contributes to the trend that public and commercial locations in Toronto-East York have large number of crimes.
+ChatGPT said:
+
+ChatGPT
+Here’s a slightly revised version for clarity and flow:
+
+The Toronto-East York region, with its large population, naturally reports a higher number of hate crimes. Additionally, the presence of numerous commercial buildings and public transportation options contributes to the trend of elevated crime rates in public and commercial locations within Toronto-East York.
+
+Let me know if you need further changes!
