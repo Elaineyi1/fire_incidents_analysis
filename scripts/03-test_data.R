@@ -3,7 +3,7 @@
 # Author: Boxuan Yi
 # Email: boxuan.yi@mail.utoronto.ca
 # Date: 19 September 2024
-# Prerequisites: None
+# Prerequisites: Understand the tested dataset
 
 library(here)
 library(dplyr)

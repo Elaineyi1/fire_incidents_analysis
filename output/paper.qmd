@@ -1,9 +1,9 @@
 ---
-title: "Hate Crimes in Toronto: Increasing Hates Towards Jewish People and Growing Incidents in Public Spaces"
+title: "Rising Hate Crimes in Toronto: Increased Targeting of Jewish People and Public Incidents"
 author: "Boxuan Yi"
 format: pdf
-abstract: "Hate crime data provide crucial insights into underlying biases and social dynamics. This paper uses data from Open Data Toronto to analyze the distribution of hate crimes from 2018 to 2023, focusing on biases and locations. The findings reveal that Jewish people are the most frequently targeted, with incidents continuing to rise, followed by Black individuals. Additionally, nearly half of the crimes occurred in public spaces or transportation."
-date: "22 September 2024"
+abstract: "Hate crime data provide valuable insights into underlying biases and social dynamics. This paper analyzes hate crime reports from Open Data Toronto between 2018 and 2023, focusing on the distribution of crimes by target group and location. The analysis reveals that Jewish people are the most frequently targeted group, followed by Black individuals, and the number of incidents continues to rise. Additionally, nearly half of hate crimes occur in public spaces/transportation, highlighting the growing threat to safety in everyday environments."
+date: "26 September 2024"
 date-format: "D MMMM YYYY"
 number-sections: true
 thanks: "Code and data in this analysis is available at: https://github.com/Elaineyi1/hate_crimes_in_toronto"
@@ -26,24 +26,26 @@ library(ggplot2)
 #| include: false
 data_cleaned <- read_csv(file = here("../inputs/data/data_cleaned.csv"))
 ```
-The issue of hate crimes is a global concern. Hate crimes are typically defined as criminal offences committed against a person or property based solely on the victim’s identity, such as race, religion, sexual orientation, gender, or disability [@justice]. Beyond the harm they inflict on individual victims, hate crimes foster fear and division within society. As one of the world’s most diverse cities, Toronto has experienced a rising number of hate crimes, which prompts widespread public concern. This trend highlights the urgent need for effective interventions that can address the root causes of such crimes. To better reduce hate incidents and develop strategies, it is important to analyze hate crime data — specifically, whether criminals are targeting particular groups and, if so, which ones.
+The issue of hate crimes is a global concern. Hate crimes are typically defined as criminal offences committed against a person or property based solely on the victim’s identity, such as race, religion, sexual orientation, gender, or disability [@justice]. Beyond the harm they inflict on individual victims, hate crimes foster fear and division within society. As one of the world’s most diverse cities, Toronto has experienced a rising number of hate crimes, prompting widespread public concern. This trend underscores the urgent need for effective interventions that can address the root causes of such crimes. To better reduce hate incidents and develop strategies, it is important to analyze hate crime data — specifically, to determine whether criminals are targeting particular groups and, if so, which ones.
 
-This paper utilizes data from Open Data Toronto to explore the distribution of hate crimes by bias and location from 2018 to 2023. The biases examined include race, religion, and mental or physical disability. The locations considered are various regions in Toronto and different types of settings where crimes occur. The results show that a significant proportion of hate crimes were directed at Black individuals and Jewish people, accounting for approximately 16% and 31% of incidents, respectively. About half of the crimes occurred in public spaces or transportation, and about half were property crimes, with increasing trends observed in educational and commercial/business settings. 
+This paper seeks to fill this gap by analyzing hate crime data from Open Data Toronto, spanning 2018 to 2023. The goal is to identify which biased groups, including those based on race, religion, and disability, are most frequently targeted, and to examine the locations and types of settings where these crimes occur. The results show that a significant proportion of hate crimes were directed at Black individuals and Jewish people, accounting for approximately 16% and 31% of incidents, respectively. About half of the crimes occurred in public spaces or on transportation, and roughly half were property crimes, with increasing trends observed in educational and commercial/business settings. These trends not only highlight the vulnerability of these groups but also point to an increasing threat in everyday public environments, emphasizing the need for stronger interventions.
 
 The structure of this paper is as follows: The data utilized for analysis is introduced in @sec-data. Following that, @sec-results presents visualizations and analysis of the data. @sec-discussion then discusses the findings in a broader context, addresses limitations and outlines potential next steps. This analysis is conducted using the programming language R [@r] and the following packages: `opendatatoronto` [@ropendatatoronto], `dplyr` [@rdplyr], `tidyverse` [@rtidyverse], `here` [@rhere], `janitor` [@rjanitor], `knitr` [@rknitr], `ggplot2` [@rggplot2].
 
 # Data {#sec-data}
 ## Data Overview and Measurement
-A hate crime is a criminal offence committed against a person motivated by bias and prejudice [@hatecrime]. This analysis uses hate crime data from Open Data Toronto, covering verified hate crime occurrences from 2018 to 2023, updated annually. The dataset categorizes crimes by various bias types, such as age, disability, race, ethnicity, language, religion, sexual orientation, and gender. Provided by the Toronto Police Service, this dataset aims to enhance community awareness and public safety [@police]. 
+A hate crime is a criminal offense committed against a person, motivated by bias and prejudice [@hatecrime]. The hate crime data used in this analysis is sourced from Open Data Toronto, provided by the Toronto Police Service and updated annually. This data is collected through victim reports. It contains all verified hate crime occurrences from 2018 to 2023, aiming to enhance community awareness and public safety [@police]. The dataset categorizes crimes based on various bias types, including age, disability, race, ethnicity, language, religion, sexual orientation, and gender. The data is provided at the occurrence level.
 
-The variables or measurements included in the dataset are ID, occurrence time (time, date and year), reported time (time, date and year), police division, location type, various bias categories (age, disability, race, ethnicity, language, religion, sexual orientation, and gender), the primary offence related to the hate crime, neighbourhood, and arrest status. I also created two new variables: `occurrence_month`, derived from the occurrence date, and `division_area`, which groups the 17 police divisions, including 'NSA', into 5 regions of Toronto, with an additional 'Other' category. The data is provided at the occurrence level. The location of Hate Crime occurrences have been grouped to the neighbourhood level to protect the privacy of parties and communities involved in the occurrence. 
+The variables included in the dataset are ID, occurrence time (time, date and year), reported time (time, date and year), police division, location type, various bias categories (age, disability, race, ethnicity, language, religion, sexual orientation, and gender), the primary offence related to the hate crime, neighborhood, and arrest status. I also created two new variables: `occurrence_month`, derived from the occurrence date, and `division_area`, which groups the 17 police divisions, including 'NSA', into 5 regions of Toronto, with an additional 'Other' category. The location of Hate Crime occurrences have been grouped to the neighborhood level to protect the privacy of parties and communities involved in the occurrence [@police]. 
 
-The raw dataset contains 1350 hate crimes. After cleaning, 1287 rows remain. This analysis mainly focuses on biases related to disability, race, and religion, as well as the time and location of hate crimes. 
+This analysis mainly focuses on biases related to disability, race, and religion, as well as the time and location of hate crimes. The raw dataset contains 1350 hate crimes. After cleaning, 1287 rows remain. This dataset is the only one related to hate crimes available on Open Data Toronto, so no other similar datasets could have been used.
 
 ## Data Cleaning
-Missing values have been removed from the dataset. A new column `occurrence_month` has been created by extracting the month from the `occurrence_date`. 
+Missing values have been removed from the dataset. A new column `occurrence_month` has been created by extracting the month from the `occurrence_date`. The dataset has been modified to include a simplified `division_area` column based on police divisions.
 
-The `religion_bias` column has been cleaned by consolidating various Christian denominations into a single ‘Christian’ category, while mixed biases have been excluded. Similarly, the unclear values in the `race_bias` column, such as ‘Black, South Asian’, have been removed. The `location_type` column has been regrouped to simplify the categorization. Additionally, a new column `primary_offence_simplified` has been mutated to group primary offenses into major categories, such as ‘Assault’ and ‘Property Crimes’. Finally, the dataset has been modified to include a simplified `division_area` column based on police divisions.
+The `religion_bias` column has been cleaned by consolidating various Christian denominations into a single ‘Christian’ category, while mixed biases have been excluded. Similarly, the unclear values in the `race_bias` column, such as ‘Black, South Asian’, have been removed. The `location_type` column has been regrouped to simplify the categorization. Additionally, a new column `primary_offence_simplified` has been mutated to group primary offenses into major categories, such as ‘Assault’ and ‘Property Crimes’.
+
+The number of unclear or mixed values in the biases is small, so they have been excluded from the analysis. The limitations of this exclusion will be discussed in @sec-discussion.
 
 # Results {#sec-results}
 ```{r}
@@ -51,7 +53,7 @@ The `religion_bias` column has been cleaned by consolidating various Christian d
 #| echo: false
 #| warning: false
 #| label: fig-month
-#| fig-cap: Monthly Occurrences of Hate Crimes in Toronto From 2018 to 2023
+#| fig-cap: Hate Crime Occurrences in Toronto by Month from 2018 to 2023
 #| fig-width: 3
 #| fig-height: 2
 data_cleaned |>
@@ -66,6 +68,7 @@ data_cleaned |>
 ```
 @fig-month provides an overview of hate crime occurrences by month, showing that June has the highest number of crimes, with over 150 cases. The second-highest number of crimes occurs in September and October, with numbers decreasing to their lowest in winter, as December, January, and February see the fewest hate crimes.
 
+\newpage
 @fig-race illustrates the trend in hate crimes by racial bias from 2018 to 2023. The figure shows a sharp increase in hate crimes from 2019 to 2020, followed by another significant rise between 2022 and 2023. Most of these crimes do not demonstrate a specific racial bias; however, among those that do, Black individuals are the most frequent targets. Hate crimes targeting Black individuals notably surged starting in 2020, with a slight decline in 2023. There was also a marked rise in crimes against East and Southeast Asian communities in 2021, followed by declines in 2022 and 2023. Additionally, hate crimes against South Asian individuals began to increase slightly in 2021.
 
 ```{r}
@@ -74,6 +77,8 @@ data_cleaned |>
 #| warning: false
 #| label: fig-race
 #| fig-cap: Trends in Hate Crimes by Race Bias From 2018 to 2023
+#| fig-width: 6
+#| fig-height: 3
 data_cleaned |>
   ggplot(mapping = aes(x = occurrence_year, fill = race_bias)) +
   geom_bar() +
@@ -81,6 +86,7 @@ data_cleaned |>
   theme(legend.position = "right") +
   scale_x_continuous(breaks = seq(2018, 2023, by = 1))
 ```
+\newpage
 @fig-religion presents the trend in hate crimes motivated by religious bias from 2018 to 2023. Compared to race bias, the proportion of crimes categorized as ‘None’ is smaller, indicating that a higher percentage of hate crimes are driven by religious motivations. Each year, nearly half of these crimes targeted Jewish individuals, with a significant increase observed from 2022 to 2023. The proportion of crimes targeting Muslims declined after 2020 but showed an increase again in 2023. Additionally, a relatively higher number of crimes against Catholics is also observed in 2020.
 ```{r}
 #| message: false
@@ -88,8 +94,6 @@ data_cleaned |>
 #| warning: false
 #| label: fig-religion
 #| fig-cap: Trends in Hate Crimes by Religion Bias From 2018 to 2023
-#| fig-width: 5
-#| fig-height: 2.5
 data_cleaned |>
   ggplot(mapping = aes(x = occurrence_year, fill = religion_bias)) +
   geom_bar() +
@@ -119,7 +123,6 @@ data_cleaned |>
   scale_color_brewer(palette = "Paired")
 
 ```
-\newpage
 @fig-location (a) shows the distribution of hate crimes by location type and division area. The Toronto-East York region recorded the highest number of crimes, followed by North York, Etobicoke-York, and Scarborough, with Etobicoke seeing the fewest. Similar to @fig-location_year, public spaces and transportation had the most crimes, particularly in Toronto-East York and Etobicoke. Residential crimes were more prevalent in North York and Etobicoke-York, while educational settings saw higher crime rates in Scarborough and North York. Crimes in commercial/business settings were notably higher in Toronto-East York, while religious crimes were more frequent in Etobicoke-York.
 
 @fig-location (b) displays the distribution of hate crimes by primary offence and location type. Property crimes were overwhelmingly the most common offense across all locations, except for public spaces and transportation, where assault occurred at nearly the same rate. Threats and harassment also contributed to a significant portion of crimes, particularly in residential and commercial buildings.
@@ -131,7 +134,7 @@ data_cleaned |>
 #| warning: false
 #| message: false
 #| layout-ncol: 1
-#| fig-subcap: ["Distribution of Hate Crimes by Division Area and Location Type", "Distribution of Primary Offence by Location Type"]
+#| fig-subcap: ["Distribution of Hate Crimes by Division Area and Location Type From 2018 to 2023", "Distribution of Primary Offence by Location Type From 2018 to 2023"]
 
 data_cleaned |>
   ggplot(mapping = aes(x = division_area, fill = location_type)) +
@@ -190,14 +193,22 @@ data_cleaned %>%
 ```
 # Discussion {#sec-discussion}
 ## Race and Religion Biases
-Hate crimes in Toronto involving race and religion biases are often influenced by global and local events. The rise in hate crimes against East and Southeast Asian communities during 2020 and 2021 could be attributed to the outbreak of COVID-19. As the pandemic spread, harmful stereotypes and misinformation likely led to xenophobia and hate. This resulted in a surge of racially motivated hate crimes, reflecting a pattern of pandemic-related discrimination seen in many places around the world. The return to normal life in 2022 and 2023 could contribute to the reduction in hate incidents. Similarly, the sharp rise in hate crimes against Black individuals from 2019 to 2020 coincides with heightened racial tensions and movements like Black Lives Matter, which gained global attention following incidents of police brutality. The significant increase in hate crimes targeting Jewish communities in 2023 appears to be tied to the Israeli-Palestinian conflict. Numerous parades and protests took place in Toronto last year, and as attention on the conflict grew, it is likely that some individuals committed hate crimes against Jewish people in response. The rise in anti-Muslim hate crimes in 2023 could be related to similar international dynamics or to ongoing Islamophobia exacerbated by media portrayals of global events. In 2020, controversies involving the Catholic Church, such as discussions around clerical abuse scandals or abortion, may have intensified negative sentiments toward Catholics, leading to an increase in hate crimes against this community.
+Hate crimes in Toronto involving race and religion biases are often influenced by global and local events. The rise in hate crimes against East and Southeast Asian communities during 2020 and 2021 could be attributed to the outbreak of COVID-19. As the pandemic spread, harmful stereotypes and misinformation likely led to xenophobia and hate. This resulted in a surge of racially motivated hate crimes, reflecting a pattern of pandemic-related discrimination seen in many places around the world. The return to normal life in 2022 and 2023 could contribute to the reduction in hate incidents. Similarly, the sharp rise in hate crimes against Black individuals from 2019 to 2020 coincides with heightened racial tensions and movements like Black Lives Matter, which gained global attention following incidents of police brutality. 
+
+The significant increase in hate crimes targeting Jewish communities in 2023 appears to be tied to the Israeli-Palestinian conflict. Numerous parades and protests took place in Toronto last year, and as attention on the conflict grew, it is likely that some individuals committed hate crimes against Jewish people in response. The rise in anti-Muslim hate crimes in 2023 could be related to similar international dynamics or to ongoing Islamophobia exacerbated by media portrayals of global events. In 2020, controversies involving the Catholic Church, such as discussions around clerical abuse scandals or abortion, may have intensified negative sentiments toward Catholics, leading to an increase in hate crimes against this community.
+
+Providing resources and support for communities targeted by hate crimes, including counseling services, legal assistance, and community rebuilding initiatives, can help mitigate the effects of these crimes and strengthen community resilience. Implementing educational campaigns aimed at raising awareness about hate crimes, their impacts, and the importance of diversity and inclusion can also foster understanding within communities.
 
 ## Regions and Locations
-The prevalence of hate crimes in public spaces and transportation can be attributed to several factors. First, these areas are easily accessible and often crowded, allowing individuals to commit crimes with less fear of being identified. Second, the crowded environment makes it easier to carry out random acts of violence, such as pushing someone onto a subway track. The Toronto-East York region, with its large population, naturally has a higher number of hate crimes, particularly in public and commercial locations. The presence of numerous commercial buildings and public transportation options contributes to this trend. The prevalence of residential crimes in North York and Etobicoke-York may also be due to the significant amount of residential development in these regions. Since assaults are easier to commit in public spaces than in private areas, it follows that property crimes are the most common offences across all locations, except for public spaces and transportation, where assaults are as frequent as property crimes. Furthermore, the fact that most hate crimes are property crimes may be linked to the economic and social pressures experienced after the pandemic.
+The prevalence of hate crimes in public spaces and transportation can be attributed to several factors. First, these areas are easily accessible and often crowded, allowing individuals to commit crimes with less fear of being identified. Second, the crowded environment makes it easier to carry out random acts of violence, such as pushing someone onto a subway track. Since assaults are easier to commit in public spaces than in private areas, it follows that property crimes are the most common offences across all locations, except for public spaces and transportation, where assaults are as frequent as property crimes. Furthermore, the fact that most hate crimes are property crimes may be linked to the economic and social pressures experienced after the pandemic.
+
+The Toronto-East York region, with its large population, naturally reports a higher number of hate crimes. The presence of numerous commercial buildings and public transportation options contributes to the trend of elevated crime rates in public and commercial locations within Toronto-East York. The prevalence of residential crimes in North York and Etobicoke-York may also be due to the significant amount of residential development in these regions. 
 
 
 ## Limitation
 This dataset only includes confirmed hate crimes and does not account for occurrences deemed unfounded or classified as hate incidents. Additionally, some hate crimes may go unreported due to victim fear or distrust of law enforcement, causing potential biases. For instance, crimes occurring in households might be underrepresented, as victims may feel more vulnerable knowing the perpetrator has access to their home address, unlike crimes committed in public spaces. Furthermore, the dataset, covering only the years from 2018 to 2023, may overlook long-term trends in hate crimes.
+
+As illustrated in @sec-data, there is a small number of unclear biases in the dataset. These unclear values, such as "Black, South Asian" in the religion bias column, have been removed. This exclusion may lead to some biases being underreported, as all unclear values indicate a bias rather than a 'None' response. 
 
 ## Next steps
 To effectively reduce hate crimes, it would be beneficial to collect data on the motivations behind these incidents. Understanding the differences between property crimes and those explicitly targeting individuals based on bias could provide valuable insights.

@@ -14,6 +14,7 @@ library(knitr)
 # Read the raw dataset
 data_raw <- read_csv(file = here("../inputs/data/data_raw.csv"))
 
+# Clean the names, eliminate NA, and create an occurrence month column
 data_cleaned <- clean_names(data_raw)
 data_cleaned <- na.omit(data_cleaned)
 data_cleaned$occurrence_month <- as.numeric(substr(data_cleaned$occurrence_date, 6, 7))
