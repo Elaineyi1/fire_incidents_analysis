@@ -627,6 +627,7 @@ These options should make the graph smaller in the rendered PDF.
 
 ChatGPT can make mistakes. Check important info.
 
+
 ChatGPT
 
 Share
